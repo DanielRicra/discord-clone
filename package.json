@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.23.2",
+    "@prisma/client": "5.2.0",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.5",
@@ -38,6 +39,7 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
+    "prisma": "^5.2.0",
     "rome": "12.1.3"
   }
 }
