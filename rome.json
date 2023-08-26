@@ -1,0 +1,23 @@
+{
+	"$schema": "https://docs.rome.tools/schemas/12.1.3/schema.json",
+	"organizeImports": {
+		"enabled": false
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"noVar": "warn",
+				"noNonNullAssertion": "off"
+			},
+			"suspicious": {
+				"noEmptyInterface": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off"
+			}
+		},
+		"ignore": [".next"]
+	}
+}
