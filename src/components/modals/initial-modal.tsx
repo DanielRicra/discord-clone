@@ -66,13 +66,13 @@ const InitialModal = () => {
 
 	return (
 		<Dialog open>
-			<DialogContent className="bg-white text-black p-0 overflow-hidden">
+			<DialogContent className="bg-white dark:bg-[#313338] text-black dark:text-white p-0 overflow-hidden">
 				<DialogHeader className="pt-8 px-6">
 					<DialogTitle className="text-2xl text-center font-bold">
 						Customize your server
 					</DialogTitle>
 
-					<DialogDescription className="text-center text-zinc-500">
+					<DialogDescription className="text-center text-zinc-500 dark:text-zinc-50">
 						Give your server a personality with a name and image. You can always
 						change it later
 					</DialogDescription>
@@ -104,14 +104,14 @@ const InitialModal = () => {
 								name="name"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+										<FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-zinc-50">
 											Server Name
 										</FormLabel>
 
 										<FormControl>
 											<Input
 												disabled={form.formState.isSubmitting}
-												className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+												className="bg-zinc-200 dark:bg-[#1e1f22] border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
 												placeholder="Enter server name"
 												{...field}
 											/>
@@ -122,7 +122,7 @@ const InitialModal = () => {
 							/>
 						</div>
 
-						<DialogFooter className="bg-gray-100 px-6 py-4">
+						<DialogFooter className="bg-white dark:bg-[#313338] text-black dark:text-white px-6 py-4">
 							<Button variant="primary" disabled={form.formState.isSubmitting}>
 								Create
 							</Button>
