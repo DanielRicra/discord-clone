@@ -3,7 +3,6 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { minLength, object, string, type Output } from "valibot";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -26,6 +25,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import FileUpload from "../file-upload";
+import { useModal } from "@/hooks/use-modal-store";
+import { useEffect } from "react";
 
 const serverFormSchema = object({
 	name: string([minLength(1, "Server name is required")]),
@@ -34,45 +35,57 @@ const serverFormSchema = object({
 
 type ServerFormData = Output<typeof serverFormSchema>;
 
-const InitialModal = () => {
-	const [isMounted, setIsMounted] = useState(false);
+const EditServerModal = () => {
+	const {
+		isOpen,
+		onClose,
+		type,
+		data: { server },
+	} = useModal();
 	const router = useRouter();
+
+	const isModalOpen = isOpen && type === "editServer";
 
 	const form = useForm<ServerFormData>({
 		resolver: valibotResolver(serverFormSchema),
 		defaultValues: {
-			name: "",
 			imageUrl: "",
+			name: "",
 		},
 	});
 
 	const onSubmit = async (values: ServerFormData) => {
 		try {
-			await axios.post("/api/servers", values);
+			await axios.patch(`/api/servers/${server?.id}`, values);
 
-			form.reset();
+			onClose();
 			router.refresh();
-			window.location.reload();
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	useEffect(() => {
-		setIsMounted(true);
-	}, []);
+	const handleClose = () => {
+		form.reset();
+		onClose();
+	};
 
-	if (!isMounted) return null;
+	useEffect(() => {
+		if (server) {
+			form.setValue("imageUrl", server.imageUrl);
+			form.setValue("name", server.name);
+		}
+	}, [server, form]);
 
 	return (
-		<Dialog open>
+		<Dialog open={isModalOpen} onOpenChange={handleClose}>
 			<DialogContent className="bg-white dark:bg-[#313338] text-black dark:text-white p-0 overflow-hidden">
 				<DialogHeader className="pt-8 px-6">
 					<DialogTitle className="text-2xl text-center font-bold">
 						Customize your server
 					</DialogTitle>
 
-					<DialogDescription className="text-center text-zinc-500 dark:text-zinc-100 text-balanced">
+					<DialogDescription className="text-center text-zinc-500 dark:text-zinc-200 text-balanced">
 						Give your server a personality with a name and image. You can always
 						change it later
 					</DialogDescription>
@@ -111,7 +124,7 @@ const InitialModal = () => {
 										<FormControl>
 											<Input
 												disabled={form.formState.isSubmitting}
-												className="bg-zinc-200 dark:bg-[#1e1f22] border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+												className="bg-zinc-300/50 dark:bg-[#1e1f22] border-none focus-visible:ring-0 focus-visible:ring-offset-0"
 												placeholder="Enter server name"
 												{...field}
 											/>
@@ -124,7 +137,7 @@ const InitialModal = () => {
 
 						<DialogFooter className="px-6 py-4">
 							<Button variant="primary" disabled={form.formState.isSubmitting}>
-								Create
+								Save
 							</Button>
 						</DialogFooter>
 					</form>
@@ -134,4 +147,4 @@ const InitialModal = () => {
 	);
 };
 
-export default InitialModal;
+export default EditServerModal;
