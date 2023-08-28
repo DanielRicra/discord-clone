@@ -26,8 +26,7 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
 
 	return (
 		<ActionTooltip side="right" align="center" label={name}>
-			<button
-				type="button"
+			<div
 				onClick={onClick}
 				className="relative group flex items-center"
 			>
@@ -46,9 +45,9 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
 							"bg-primary/10 text-primary rounded-[16px]",
 					)}
 				>
-					<Image fill src={imageUrl} alt="Channel" />
+					<Image fill src={imageUrl} alt="Channel" className="object-cover" />
 				</div>
-			</button>
+			</div>
 		</ActionTooltip>
 	);
 };
