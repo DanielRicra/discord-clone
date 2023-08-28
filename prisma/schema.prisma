@@ -27,7 +27,7 @@ model Server {
   id         String @id @default(uuid())
   name       String @db.VarChar(100)
   imageUrl   String @db.Text
-  inviteCode String @db.Text
+  inviteCode String @unique
   profileId  String
 
   createdAt DateTime @default(now())
@@ -70,8 +70,8 @@ enum ChannelType {
 }
 
 model Channel {
-  id        String     @id @default(uuid())
-  name      String     @db.VarChar(250)
+  id        String      @id @default(uuid())
+  name      String      @db.VarChar(250)
   type      ChannelType @default(TEXT)
   profileId String
   serverId  String
