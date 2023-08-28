@@ -63,7 +63,7 @@ model Member {
   @@index([serverId])
 }
 
-enum ChanelType {
+enum ChannelType {
   TEXT
   AUDIO
   VIDEO
@@ -72,7 +72,7 @@ enum ChanelType {
 model Channel {
   id        String     @id @default(uuid())
   name      String     @db.VarChar(250)
-  type      ChanelType @default(TEXT)
+  type      ChannelType @default(TEXT)
   profileId String
   serverId  String
 
