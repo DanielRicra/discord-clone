@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { UserButton } from "@clerk/nextjs";
 
 import { currentProfile } from "@/lib/current-profile";
 import { prisma } from "@/lib/db";
@@ -7,7 +8,6 @@ import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import NavigationItem from "./navigation-item";
 import { ModeToggle } from "../mode-toggle";
-import { UserButton } from "@clerk/nextjs";
 
 const NavigationSidebar = async () => {
 	const profile = await currentProfile();

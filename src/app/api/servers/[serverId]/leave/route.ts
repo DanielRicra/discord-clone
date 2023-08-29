@@ -15,7 +15,7 @@ export async function PATCH(
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
 
-		const updatedServer = await prisma.server.update({
+		await prisma.server.update({
 			where: {
 				id: params.serverId,
 				profileId: {
