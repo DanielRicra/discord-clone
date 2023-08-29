@@ -94,6 +94,7 @@ const CreateServerModal = () => {
 													onChange={field.onChange}
 												/>
 											</FormControl>
+											<FormMessage className="dark:text-[#f23f42] font-bold" />
 										</FormItem>
 									)}
 								/>
@@ -123,7 +124,11 @@ const CreateServerModal = () => {
 						</div>
 
 						<DialogFooter className="px-6 py-4">
-							<Button variant="primary" disabled={form.formState.isSubmitting}>
+							<Button
+								variant="primary"
+								disabled={form.formState.isSubmitting}
+								type="submit"
+							>
 								Create
 							</Button>
 						</DialogFooter>
