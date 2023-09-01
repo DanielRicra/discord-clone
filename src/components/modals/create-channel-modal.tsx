@@ -4,6 +4,7 @@ import { valibotResolver } from "@hookform/resolvers/valibot";
 import { minLength, object, string, nativeEnum, type Output } from "valibot";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import axios from "axios";
 
 import {
@@ -55,7 +56,12 @@ const serverFormSchema = object({
 type ServerFormData = Output<typeof serverFormSchema>;
 
 const CreateChannelModal = () => {
-	const { isOpen, onClose, type } = useModal();
+	const {
+		isOpen,
+		onClose,
+		type,
+		data: { channelType },
+	} = useModal();
 	const router = useRouter();
 	const params = useParams();
 
@@ -84,6 +90,12 @@ const CreateChannelModal = () => {
 		form.reset();
 		onClose();
 	};
+
+	useEffect(() => {
+		if (channelType) {
+			form.setValue("type", channelType);
+		}
+	}, [channelType]);
 
 	return (
 		<Dialog open={isModalOpen} onOpenChange={handleClose}>

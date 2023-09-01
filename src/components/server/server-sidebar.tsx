@@ -12,6 +12,10 @@ import {
 	ShieldCheckIcon,
 	VideoIcon,
 } from "lucide-react";
+import { Separator } from "../ui/separator";
+import ServerSection from "./server-section";
+import ServerChannel from "./server-channel";
+import ServerMember from "./server-member";
 
 interface ServerSidebarProps {
 	serverId: string;
@@ -115,6 +119,76 @@ const ServerSidebar: React.FC<ServerSidebarProps> = async ({
 						]}
 					/>
 				</div>
+
+				<Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+
+				{!!textChannels?.length && (
+					<div className="mb-2">
+						<ServerSection
+							sectionType="channels"
+							label="Text Channels"
+							channelType={ChannelType.TEXT}
+							role={role}
+						/>
+						{textChannels.map((channel) => (
+							<ServerChannel
+								key={channel.id}
+								channel={channel}
+								role={role}
+								server={server}
+							/>
+						))}
+					</div>
+				)}
+				{!!audioChannels?.length && (
+					<div className="mb-2">
+						<ServerSection
+							sectionType="channels"
+							label="Voice Channels"
+							channelType={ChannelType.AUDIO}
+							role={role}
+						/>
+						{audioChannels.map((channel) => (
+							<ServerChannel
+								key={channel.id}
+								channel={channel}
+								role={role}
+								server={server}
+							/>
+						))}
+					</div>
+				)}
+				{!!videoChannels?.length && (
+					<div className="mb-2">
+						<ServerSection
+							sectionType="channels"
+							label="Video Channels"
+							channelType={ChannelType.VIDEO}
+							role={role}
+						/>
+						{videoChannels.map((channel) => (
+							<ServerChannel
+								key={channel.id}
+								channel={channel}
+								role={role}
+								server={server}
+							/>
+						))}
+					</div>
+				)}
+				{!!members?.length && (
+					<div className="mb-2">
+						<ServerSection
+							sectionType="members"
+							label="Members"
+							role={role}
+							server={server}
+						/>
+						{members.map((member) => (
+							<ServerMember key={member.id} member={member} server={server} />
+						))}
+					</div>
+				)}
 			</ScrollArea>
 		</div>
 	);
