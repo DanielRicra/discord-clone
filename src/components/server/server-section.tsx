@@ -31,24 +31,22 @@ const ServerSection: React.FC<ServerSectionProps> = ({
 
 			{role !== MemberRole.GUEST && sectionType === "channels" && (
 				<ActionTooltip label="create channel" side="top">
-					<button
-						type="button"
+					<div
 						onClick={() => onOpen("createChannel", { channelType })}
 						className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
 					>
 						<PlusIcon className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-					</button>
+					</div>
 				</ActionTooltip>
 			)}
 			{role === MemberRole.ADMIN && sectionType === "members" && (
 				<ActionTooltip label="Manage Members" side="top">
-					<button
-						type="button"
+					<div
 						onClick={() => onOpen("members", { server })}
 						className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
 					>
 						<SettingsIcon className="w-4 h-4 text-zinc-500 dark:text-zinc-400" />
-					</button>
+					</div>
 				</ActionTooltip>
 			)}
 		</div>

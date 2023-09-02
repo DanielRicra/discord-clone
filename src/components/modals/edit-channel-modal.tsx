@@ -3,7 +3,7 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { minLength, object, string, nativeEnum, type Output } from "valibot";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import axios from "axios";
 
@@ -55,17 +55,16 @@ const channelFormSchema = object({
 
 type ServerFormData = Output<typeof channelFormSchema>;
 
-const CreateChannelModal = () => {
+const EditChannelModal = () => {
 	const {
 		isOpen,
 		onClose,
 		type,
-		data: { channelType },
+		data: { channel, server },
 	} = useModal();
 	const router = useRouter();
-	const params = useParams();
 
-	const isModalOpen = isOpen && type === "createChannel";
+	const isModalOpen = isOpen && type === "editChannel";
 
 	const form = useForm<ServerFormData>({
 		resolver: valibotResolver(channelFormSchema),
@@ -77,7 +76,10 @@ const CreateChannelModal = () => {
 
 	const onSubmit = async (values: ServerFormData) => {
 		try {
-			await axios.post(`/api/channels?serverId=${params.serverId}`, values);
+			await axios.patch(
+				`/api/channels/${channel?.id}?serverId=${server?.id}`,
+				values,
+			);
 
 			form.reset();
 			router.refresh();
@@ -93,17 +95,18 @@ const CreateChannelModal = () => {
 	};
 
 	useEffect(() => {
-		if (channelType) {
-			form.setValue("type", channelType);
+		if (channel) {
+			form.setValue("name", channel.name);
+			form.setValue("type", channel.type);
 		}
-	}, [channelType]);
+	}, [channel, form]);
 
 	return (
 		<Dialog open={isModalOpen} onOpenChange={handleClose}>
 			<DialogContent className="bg-white dark:bg-[#313338] text-black dark:text-white p-0 overflow-hidden">
 				<DialogHeader className="pt-8 px-6">
 					<DialogTitle className="text-2xl text-center font-bold">
-						Create Channel
+						Edit Channel
 					</DialogTitle>
 				</DialogHeader>
 
@@ -169,7 +172,7 @@ const CreateChannelModal = () => {
 
 						<DialogFooter className="px-6 py-4">
 							<Button variant="primary" disabled={form.formState.isSubmitting}>
-								{form.formState.isSubmitting ? "Creating..." : "Create"}
+								{form.formState.isSubmitting ? "Saving..." : "Save"}
 							</Button>
 						</DialogFooter>
 					</form>
@@ -179,4 +182,4 @@ const CreateChannelModal = () => {
 	);
 };
 
-export default CreateChannelModal;
+export default EditChannelModal;
