@@ -50,7 +50,7 @@ const DeleteServerModal = () => {
 			<DialogContent className="bg-white dark:bg-[#313338] text-black dark:text-white p-0 overflow-hidden">
 				<DialogHeader className="pt-8 px-6">
 					<DialogTitle className="text-2xl text-center font-bold">
-						Delete server
+						Delete Server
 					</DialogTitle>
 
 					<DialogDescription className="text-center">
