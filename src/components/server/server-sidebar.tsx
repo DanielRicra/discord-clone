@@ -16,10 +16,10 @@ import { Separator } from "../ui/separator";
 import ServerSection from "./server-section";
 import ServerChannel from "./server-channel";
 import ServerMember from "./server-member";
+import { currentProfile } from "@/lib/current-profile";
 
 interface ServerSidebarProps {
 	serverId: string;
-	profileId: string;
 }
 
 const IconMap = {
@@ -40,8 +40,13 @@ const RoleIconMap = {
 
 const ServerSidebar: React.FC<ServerSidebarProps> = async ({
 	serverId,
-	profileId,
 }) => {
+	const profile = await currentProfile();
+
+  if (!profile) {
+    return redirect("/");
+  }
+
 	const server = await prisma.server.findUnique({
 		where: {
 			id: serverId,
@@ -62,7 +67,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = async ({
 		(channel) => channel.type === ChannelType.VIDEO,
 	);
 	const members = server?.members.filter(
-		(member) => member.profileId !== profileId,
+		(member) => member.profileId !== profile.id,
 	);
 
 	if (!server) {
@@ -70,7 +75,7 @@ const ServerSidebar: React.FC<ServerSidebarProps> = async ({
 	}
 
 	const role = server.members.find(
-		(member) => member.profileId === profileId,
+		(member) => member.profileId === profile.id,
 	)?.role;
 
 	return (
