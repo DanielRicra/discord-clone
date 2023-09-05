@@ -3,11 +3,7 @@
 import { useSocket } from "@/components/providers/socket-provider";
 import { Badge } from "./ui/badge";
 
-interface SocketIndicatorProps {
-	a?: number;
-}
-
-const SocketIndicator: React.FC<SocketIndicatorProps> = ({ a }) => {
+const SocketIndicator = () => {
 	const { isConnected } = useSocket();
 	return !isConnected ? (
 		<Badge variant="outline" className="bg-yellow-600 text-white border-none">
