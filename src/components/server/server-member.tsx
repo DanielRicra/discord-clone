@@ -29,7 +29,7 @@ const ServerMember: React.FC<ServerMemberProps> = ({ member, server }) => {
 	const icon = RoleIconMap[member.role];
 
 	const onClick = () => {
-		router.push(`/server/${server.id}/conversations/${member.id}`);
+		router.push(`/servers/${server.id}/conversations/${member.id}`);
 	};
 
 	return (
