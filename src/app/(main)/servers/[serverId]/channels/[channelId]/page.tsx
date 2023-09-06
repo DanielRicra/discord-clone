@@ -4,6 +4,7 @@ import { currentProfile } from "@/lib/current-profile";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import ChatHeader from "@/components/chat/chat-header";
+import ChatInput from "@/components/chat/chat-input";
 
 interface ChannelPageProps {
 	params: { serverId: string; channelId: string };
@@ -33,6 +34,13 @@ const ChannelPage: React.FC<ChannelPageProps> = async ({ params }) => {
 			<ChatHeader
 				name={channel.name}
 				serverId={channel.serverId}
+				type="channel"
+			/>
+			<div className="flex-1">Future messages</div>
+			<ChatInput
+				apiUrl="/api/socket/messages"
+				name={channel.name}
+				query={{ channelId: channel.id, serverId: channel.serverId }}
 				type="channel"
 			/>
 		</div>
