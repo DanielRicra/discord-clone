@@ -12,7 +12,8 @@
 				"noNonNullAssertion": "off"
 			},
 			"suspicious": {
-				"noEmptyInterface": "off"
+				"noEmptyInterface": "off",
+				"noExplicitAny": "off"
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off"

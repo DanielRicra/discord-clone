@@ -8,6 +8,7 @@ import axios from "axios";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { PlusIcon, SmileIcon } from "lucide-react";
 import { Input } from "../ui/input";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface ChatInputProps {
 	apiUrl: string;
@@ -23,6 +24,8 @@ const formSchema = object({
 type FormSchema = Output<typeof formSchema>;
 
 const ChatInput: React.FC<ChatInputProps> = ({ apiUrl, name, query, type }) => {
+	const { onOpen } = useModal();
+
 	const form = useForm<FormSchema>({
 		resolver: valibotResolver(formSchema),
 	});
@@ -31,10 +34,13 @@ const ChatInput: React.FC<ChatInputProps> = ({ apiUrl, name, query, type }) => {
 
 	const onSubmit = async (values: FormSchema) => {
 		try {
-      await axios.post(`${apiUrl}/?${new URLSearchParams(query).toString()}`, values)
-    } catch (error) {
-      console.log(error);
-    }
+			await axios.post(
+				`${apiUrl}/?${new URLSearchParams(query).toString()}`,
+				values,
+			);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -49,7 +55,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ apiUrl, name, query, type }) => {
 								<div className="relative p-4 pb-6">
 									<button
 										type="button"
-										onClick={() => {}}
+										onClick={() => onOpen("messageFile", { apiUrl, query })}
 										className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 rounded-full transition-colors p-1 flex items-center justify-center"
 									>
 										<PlusIcon className="text-white dark:text-[#313338]" />

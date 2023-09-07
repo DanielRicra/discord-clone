@@ -77,7 +77,7 @@ const CreateChannelModal = () => {
 
 	const onSubmit = async (values: ServerFormData) => {
 		try {
-			await axios.post(`/api/channels?serverId=${params.serverId}`, values);
+			await axios.post(`/api/channels?serverId=${params?.serverId}`, values);
 
 			form.reset();
 			router.refresh();
