@@ -3,12 +3,14 @@
 import { valibotResolver } from "@hookform/resolvers/valibot";
 import { useForm } from "react-hook-form";
 import { Output, minLength, object, string } from "valibot";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { PlusIcon, SmileIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { useModal } from "@/hooks/use-modal-store";
+import EmojiPicker from "../emoji-picker";
 
 interface ChatInputProps {
 	apiUrl: string;
@@ -25,9 +27,11 @@ type FormSchema = Output<typeof formSchema>;
 
 const ChatInput: React.FC<ChatInputProps> = ({ apiUrl, name, query, type }) => {
 	const { onOpen } = useModal();
+	const router = useRouter();
 
 	const form = useForm<FormSchema>({
 		resolver: valibotResolver(formSchema),
+		defaultValues: { content: "" },
 	});
 
 	const isLoading = form.formState.isSubmitting;
@@ -38,6 +42,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ apiUrl, name, query, type }) => {
 				`${apiUrl}/?${new URLSearchParams(query).toString()}`,
 				values,
 			);
+
+			form.reset();
+			router.refresh();
 		} catch (error) {
 			console.log(error);
 		}
@@ -69,7 +76,11 @@ const ChatInput: React.FC<ChatInputProps> = ({ apiUrl, name, query, type }) => {
 										{...field}
 									/>
 									<div className="absolute top-7 right-8">
-										<SmileIcon />
+										<EmojiPicker
+											onChange={(emoji: string) =>
+												field.onChange(`${field.value} ${emoji}`)
+											}
+										/>
 									</div>
 								</div>
 							</FormControl>
