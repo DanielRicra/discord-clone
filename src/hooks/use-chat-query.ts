@@ -1,0 +1,41 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
+
+import { useSocket } from "@/components/providers/socket-provider";
+
+interface ChatQueryProps {
+	queryKey: string;
+	apiUrl: string;
+	paramKey: "channelId" | "conversationId";
+	paramValue: string;
+}
+
+export function useChatQuery({
+	apiUrl,
+	paramKey,
+	paramValue,
+	queryKey,
+}: ChatQueryProps) {
+	const { isConnected } = useSocket();
+
+	const fetchMessages = async ({ pageParam = undefined }) => {
+		const url = `${apiUrl}?cursor=${pageParam ?? ""}&${paramKey}=${paramValue}`;
+		const response = await fetch(url);
+		return response.json();
+	};
+
+	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+		useInfiniteQuery({
+			queryKey: [queryKey],
+			queryFn: fetchMessages,
+			getNextPageParam: (lastPage) => lastPage.nextCursor,
+			refetchInterval: isConnected ? false : 1000,
+		});
+
+	return {
+		data,
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		status,
+	};
+}
